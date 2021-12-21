@@ -1,0 +1,32 @@
+.menu {
+  width: 150px;
+  height: 100%;
+  background: linear-gradient(rgb(12, 150, 248) 0%, rgb(28, 145, 247) 25%, rgb(51, 133, 233) 50%,rgb(55, 169, 240) 75%, rgb(0, 251, 255) 100%);
+  text-align: center;
+}
+
+/*menu avatar*/
+.menu-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  margin-top: 10px;
+}
+
+/*menu blank(间隙处理)*/
+.menu-blank {
+  margin-top: 50px;
+}
+
+/*menu item*/
+.menu-item {
+  color: white;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  transition: .8s;
+  cursor: pointer;
+}
+.menu-item:hover {
+  background-color: rgb(100, 100, 245);
+}
