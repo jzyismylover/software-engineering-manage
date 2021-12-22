@@ -37,16 +37,31 @@ const routes: RouteRecordRaw[] = [
         name: 'Book',
         component: () => import('../views/home/book/index.vue')
       },
+      {/*书籍更新*/
+        path: 'book-update/:id',
+        name: 'BookUpdate',
+        component: () => import('../views/home/book/book-update.vue')
+      },
       {/*类别管理*/
         path: 'category',
         name: 'Category',
         component: () => import('../views/home/category/index.vue')
+      },
+      {/*类别更新*/
+        path: 'category-update/:id',
+        name: 'CategoryUpdate',
+        component: () => import('../views/home/category/category-update.vue')
       },
       {/*用户管理*/
         path: 'user',
         name: 'User',
         component: () => import('../views/home/user/index.vue')
       },
+      {/*用户更新*/
+        path: 'user-update',
+        name: 'UserUpdate',
+        component: () => import('../views/home/user/user-update.vue')
+      }
     ]
   }
 ]

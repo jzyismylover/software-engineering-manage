@@ -1,67 +1,75 @@
 <template>
-  <base-nav title="分类信息管理" />
-  <a-table :columns="columns" :data-source="data" bordered>
-    <template #name="{ text }">
-      <a>{{ text }}</a>
-    </template>
-  </a-table>
+  <base-nav title="类别信息管理" />
+  <a-button class="btn--create" type="primary" @click="handleAdd">新增</a-button>
+  <div class="table">
+    <a-table :columns="columns" :data-source="data" :pagination="{ defaultPageSize: 9 }" bordered>
+      <template #name="{ text }">
+        <a>{{ text }}</a>
+      </template>
+      <template #operation="{ record }">
+        <a-tag @click="handleUpdate(record)">修改</a-tag>
+        <a-tag @click="handleDelete(record)">删除</a-tag>
+      </template>
+    </a-table>
+  </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { Table } from 'ant-design-vue'
+import { defineComponent, onMounted, ref } from 'vue';
+import { Table, Tag } from 'ant-design-vue'
+import { useRouter } from 'vue-router';
+import { useHandleCategory } from '../../../controller/category';
 
+// 设置标题头
 const columns = [
   {
-    title: 'Name',
-    dataIndex: 'name',
+    title: '类别名',
+    dataIndex: 'categoryName',
     slots: { customRender: 'name' },
   },
   {
-    title: 'Cash Assets',
-    className: 'column-money',
-    dataIndex: 'money',
+    title: '类别等级',
+    // className: 'column-money',
+    dataIndex: 'categoryLevel',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-  },
+    title: '操作',
+    slots: { customRender: 'operation' },
+  }
 ];
 
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    money: '￥300,000.00',
-    address: 'New York No. 1 Lake Park',
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    money: '￥1,256,000.00',
-    address: 'London No. 1 Lake Park',
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    money: '￥120,000.00',
-    address: 'Sidney No. 1 Lake Park',
-  },
-];
-
-/*
-  一级、二级分类
-  修改的主要是一级和二级的分类名
-  第二是修改二级的父级（一级）是谁 —— 前端进行数据筛选
-*/
 
 export default defineComponent({
   components: {
-    [Table.name]: Table
+    [Table.name]: Table,
+    [Tag.name]: Tag
   },
   setup() {
+    const router = useRouter()
+
+    const { getCategorys } = useHandleCategory()
+    const data = ref()
+    onMounted(async () => {
+      data.value = await getCategorys()
+    }) 
+    
+    // 跳转更新
+    const handleUpdate = (record: any) => {
+      console.log(record)
+      router.push('/home/book-update')
+    }
+
+    // 确定删除记录
+    const handleDelete = (record: any) => { }
+
+    // 新增
+    const handleAdd = () => {}
+
     return {
       data,
       columns,
+      handleUpdate,
+      handleDelete,
+      handleAdd,
     };
   },
 });
@@ -70,5 +78,13 @@ export default defineComponent({
 th.column-money,
 td.column-money {
   text-align: right !important;
+}
+.btn--create {
+  position: absolute;
+  top: 25px;
+  right: 50px;
+}
+.btn--create::before {
+  clear: both
 }
 </style>

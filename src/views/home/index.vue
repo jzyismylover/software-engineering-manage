@@ -26,4 +26,7 @@ export default defineComponent({
   display: flex;
   height: 100%;
 }
+.main {
+  width: calc(100% - 150px);
+}
 </style>

@@ -1,49 +1,51 @@
 <template>
   <base-nav title="书本信息管理" />
+  <a-button class="btn--create" type="primary" @click="handleAdd">新增</a-button>
   <div class="table">
-    <a-table :columns="columns" :data-source="data" :pagination='{defaultPageSize: 6}'  bordered>
+    <a-table :columns="columns" :data-source="data" :pagination="{ defaultPageSize: 9 }" rowKey='id' bordered>
       <template #name="{ text }">
         <a>{{ text }}</a>
       </template>
       <template #operation="{ record }">
-        <a-tag @click="handleShow(record)">查看</a-tag>
-        <a-tag @click="handleUpdate(record)">修改</a-tag>
-        <a-tag @click="handleDelete(record)">删除</a-tag>
+        <a-tag @click="handleUpdate(record)" color="blue">修改</a-tag>
+        <a-tag @click="handleDelete(record)" color="red">删除</a-tag>
       </template>
     </a-table>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import { Table, Tag } from 'ant-design-vue'
+import { useRouter } from 'vue-router';
+import { useHandleBook  } from '../../../controller/book'
 
 // 设置标题头
 const columns = [
   {
     title: '书名',
-    dataIndex: 'name',
+    dataIndex: 'bookName',
     slots: { customRender: 'name' },
   },
   {
     title: '作者',
     // className: 'column-money',
-    dataIndex: 'money',
+    dataIndex: 'author',
   },
   {
     title: '定价',
-    dataIndex: 'address',
+    dataIndex: 'originalPrice',
   },
   {
     title: '出版社',
-    dataIndex: 'address',
+    dataIndex: 'publishingHouse',
   },
   {
     title: '出版年',
-    dataIndex: 'address',
+    dataIndex: 'yearOfPublication',
   },
   {
-    title: '出版社',
-    dataIndex: 'address',
+    title: '评分',
+    dataIndex: 'score'
   },
   {
     title: '操作',
@@ -51,75 +53,6 @@ const columns = [
   }
 ];
 
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    money: '￥300,000.00',
-    address: 'New York No. 1 Lake Park',
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    money: '￥1,256,000.00',
-    address: 'London No. 1 Lake Park',
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    money: '￥120,000.00',
-    address: 'Sidney No. 1 Lake Park',
-  },
-    {
-    key: '3',
-    name: 'Joe Black',
-    money: '￥120,000.00',
-    address: 'Sidney No. 1 Lake Park',
-  },
-    {
-    key: '3',
-    name: 'Joe Black',
-    money: '￥120,000.00',
-    address: 'Sidney No. 1 Lake Park',
-  },
-    {
-    key: '3',
-    name: 'Joe Black',
-    money: '￥120,000.00',
-    address: 'Sidney No. 1 Lake Park',
-  },
-      {
-    key: '3',
-    name: 'Joe Black',
-    money: '￥120,000.00',
-    address: 'Sidney No. 1 Lake Park',
-  },
-      {
-    key: '3',
-    name: 'Joe Black',
-    money: '￥120,000.00',
-    address: 'Sidney No. 1 Lake Park',
-  },
-        {
-    key: '3',
-    name: 'Joe Black',
-    money: '￥120,000.00',
-    address: 'Sidney No. 1 Lake Park',
-  },
-        {
-    key: '3',
-    name: 'Joe Black',
-    money: '￥120,000.00',
-    address: 'Sidney No. 1 Lake Park',
-  },
-        {
-    key: '3',
-    name: 'Joe Black',
-    money: '￥120,000.00',
-    address: 'Sidney No. 1 Lake Park',
-  },
-  
-];
 
 export default defineComponent({
   components: {
@@ -127,26 +60,50 @@ export default defineComponent({
     [Tag.name]: Tag
   },
   setup() {
+    const router = useRouter()
+
+    const { createBooks, deleteBooks, updateBooks, getBooks }  = useHandleBook()
+
+    const data = ref()
+    onMounted(async () => {
+      data.value = await getBooks()
+    })
+
     /*records存储的是每一行的记录*/
-    const handleShow = (record: any) => {
+    const handleUpdate = (record: any) => {
       console.log(record)
+      router.push('/home/book-update/' + record.id)
     }
-    const handleUpdate = () => {}
-    const handleDelete= () => {}
+    const handleDelete = () => { }
+
+    const handleAdd = () => {
+      router.push('/home/book-update/add')
+    }
 
     return {
       data,
       columns,
-      handleShow,
+      handleAdd,
       handleUpdate,
       handleDelete,
     };
   },
 });
 </script>
+<style scoped>
+.ant-tag {
+  cursor: pointer;
+}
+
+</style>
+
 <style>
-th.column-money,
-td.column-money {
-  text-align: right !important;
+.btn--create {
+  position: absolute;
+  top: 25px;
+  right: 50px;
+}
+.btn--create::before {
+  clear: both
 }
 </style>
