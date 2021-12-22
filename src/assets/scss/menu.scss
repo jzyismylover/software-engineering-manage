@@ -1,8 +1,9 @@
 .menu {
   width: 150px;
-  height: 100%;
+  height: calc(100%);
   background: linear-gradient(rgb(12, 150, 248) 0%, rgb(28, 145, 247) 25%, rgb(51, 133, 233) 50%,rgb(55, 169, 240) 75%, rgb(0, 251, 255) 100%);
   text-align: center;
+  margin-right: 50px;
 }
 
 /*menu avatar*/

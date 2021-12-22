@@ -18,14 +18,24 @@ export function useHandleBook() {
     }
   }
 
-  
+  const createBooks = async (id: number) => {
+    const res = await XRequest({
+      url: API.BOOK,
+      method: 'post'
+    })
+  }
 
 
-  const createBooks = () => { }
+  const getBooks = async () => { 
+    const res = await XRequest({
+      url: API.BOOK
+    })
+  }
 
 
-  const getBooks = () => { }
-
-
-  const updateBooks = () => { }
+  const updateBooks = async (id: number) => {
+    const res = await XRequest({
+      url: API.BOOK
+    })  
+  }
 }

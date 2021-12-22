@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import BaseMenu from '../../components/BaseMenu.vue'
+import BaseMenu from '../../layout/menu/index.vue'
 
 export default defineComponent({
   components: {
@@ -23,6 +23,7 @@ export default defineComponent({
 
 <style>
 .home {
+  display: flex;
   height: 100%;
 }
 </style>

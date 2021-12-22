@@ -3,8 +3,14 @@
  */
 
 export function useHandleCategory() {
-  const deleteCategorys = () => { }
+
+  const deleteCategorys = async () => { }
+
   const createCategorys = () => { }
+
+
   const getCategorys = () => { }
+
+
   const updateCategorys = () => { }
 }
