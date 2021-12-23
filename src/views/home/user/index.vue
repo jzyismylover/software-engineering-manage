@@ -7,8 +7,8 @@
         <a>{{ text }}</a>
       </template>
       <template #operation="{ record }">
-        <a-tag @click="handleUpdate(record)">修改</a-tag>
-        <a-tag @click="handleDelete(record)">删除</a-tag>
+        <a-tag @click="handleUpdate(record)" color="blue">修改</a-tag>
+        <a-tag @click="handleDelete(record)" color="red">删除</a-tag>
       </template>
     </a-table>
   </div>
@@ -63,25 +63,25 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     
-    const { getUsers, deleteUsers, updateUsers, createUsers } = useHandleUser()
+    const { getUsers, deleteUsers } = useHandleUser()
 
     const data = ref();
     onMounted(async () => {
       data.value = await getUsers()
     })
 
-    /*records存储的是每一行的记录*/
-    const handleShow = (record: any) => {
-      console.log(record)
-      router.push('/home/user-update')
-    }
     const handleUpdate = (record: any) => {
       console.log(record)
-      router.push('/home/user-update')
+      router.push('/home/user-update/' + record.userId)
     }
-    const handleDelete = (record: any) => { }
+    
+    const handleDelete = async (record: any) => {
+      data.value = await deleteUsers(record.userId)
+    }
 
-    const handleAdd = () => {}
+    const handleAdd = () => {
+      router.push('/home/user-update/add')
+    }
 
     return {
       data,
@@ -93,17 +93,3 @@ export default defineComponent({
   },
 });
 </script>
-<style>
-th.column-money,
-td.column-money {
-  text-align: right !important;
-}
-.btn--create {
-  position: absolute;
-  top: 25px;
-  right: 50px;
-}
-.btn--create::before {
-  clear: both
-}
-</style>

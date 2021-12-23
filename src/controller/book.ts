@@ -9,13 +9,18 @@ import { XRequest } from "../utils/axios"
 export function useHandleBook() {
 
   const deleteBooks = async (id: number) => {
-    const res = await XRequest({
+    return XRequest({
       url: API.BOOK,
-      method: 'delete'
+      method: 'delete',
+      param: {
+        id: Number(id)
+      }
+    }).then(res => {
+      if(res.code === 200) {
+        message.success('删除成功')
+        return getBooks()
+      }
     })
-    if(res.code) {
-      message.success('删除成功')
-    }
   }
 
   const createBooks = async (param) => {

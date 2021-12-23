@@ -2,14 +2,43 @@
  * 类别信息增删查改
  */
 
+interface CategoryItem {
+  categoryId: number | string,
+  categoryName: string,
+  categoryLevel: string | number,
+}
+
+
+import { message } from "ant-design-vue"
 import { API } from "../enum/api"
 import { XRequest } from "../utils/axios"
 
 export function useHandleCategory() {
 
-  const deleteCategorys = async () => { }
+  const deleteCategorys = async (params: any) => { 
+    return XRequest({
+      url: API.CATEGORY,
+      method: 'delete',
+      param: {
+        id: params.id
+      }
+    }).then(res => {
+      if(res.code == 200) message.success(`删除${params.name}成功`)
+      return getCategorys()
+    })
+  }
 
-  const createCategorys = async () => { }
+  const createCategorys = async (params: any) => {
+    return XRequest({
+      url: API.CATEGORY,
+      method: 'post',
+      param: params
+    }).then(res => {
+      if(res.code == 200) {
+        message.success(`新增${params.categoryName}成功`)
+      }     
+    })
+  }
 
   const getCategorys = async () => {
     return XRequest({
@@ -20,7 +49,15 @@ export function useHandleCategory() {
   }
 
 
-  const updateCategorys = () => { }
+  const updateCategorys = (params: any) => { 
+    return XRequest({
+      url: API.CATEGORY,
+      method: 'put',
+      param: params
+    }).then(res => {
+      if(res.code == 200) message.success(`修改${params.name}成功`)
+    })
+  }
 
   return {
     createCategorys,

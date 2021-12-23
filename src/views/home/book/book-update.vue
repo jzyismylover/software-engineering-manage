@@ -19,8 +19,11 @@
     <a-form-item class="row-half" label="出版年">
       <a-input v-model:value="formState.yearOfPublication" />
     </a-form-item>
-    <a-form-item class="row-half" label="定价">
+    <a-form-item class="row-half" label="原价">
       <a-input v-model:value="formState.originalPrice" />
+    </a-form-item>
+    <a-form-item class="row-half" label="当前价">
+      <a-input v-model:value="formState.currentPrice" />
     </a-form-item>
     <a-form-item class="row-half" label="IBSN">
       <a-input v-model:value="formState.isbn" />
@@ -44,10 +47,9 @@
       <a-textarea v-model:value="formState.catalog" :auto-size="{ minRows: 2, maxRows: 3 }" />
     </a-form-item>
     <a-form-item class="row-whole" label="标签">
-      <a-tag>{{ formState.label }}</a-tag>
+      <active-tag v-model:tags="formState.label" />
     </a-form-item>
   </a-form>
-
   <div class="btn">
     <a-button type="primary" @click="onSubmit">确认</a-button>
     <a-button style="margin-left: 10px" @click="setBack">返回</a-button>
@@ -78,7 +80,8 @@ export default defineComponent({
     onMounted(async () => {
       if (isAdd.value !== 'add') {
         const res = await getBookByID(route.params.id as string)
-        Object.assign(formState, res)
+        const labels = res.label ? res.label.split('/') : []
+        Object.assign(formState, res, { label: labels.slice(0, labels.length - 1) })
       }
     })
 
@@ -90,8 +93,9 @@ export default defineComponent({
       isAdd.value === 'add' ? setAdd() : setUpdate()
     };
 
+    // 提交的时候合并 tags
     const setUpdate = () => {
-      updateBooks(toRaw(formState))
+      updateBooks(toRaw(Object.assign(formState, { label: formState.label.toString() })))
     }
     const setAdd = () => {
       createBooks(toRaw(formState))
@@ -118,7 +122,7 @@ export default defineComponent({
   display: flex;
   flex-wrap: wrap;
   justify-content: start;
-  margin-top: 100px;
+  margin-top: 60px;
 }
 .row-half {
   width: 50%;

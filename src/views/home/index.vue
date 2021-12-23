@@ -29,4 +29,12 @@ export default defineComponent({
 .main {
   width: calc(100% - 150px);
 }
+.btn--create {
+  position: absolute;
+  top: 25px;
+  right: 50px;
+}
+.btn--create::before {
+  clear: both
+}
 </style>

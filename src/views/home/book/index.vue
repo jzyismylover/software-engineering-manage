@@ -6,7 +6,7 @@
       <template #name="{ text }">
         <a>{{ text }}</a>
       </template>
-      <template #operation="{ record }">
+      <template v-slot:operation="{ record }">
         <a-tag @click="handleUpdate(record)" color="blue">修改</a-tag>
         <a-tag @click="handleDelete(record)" color="red">删除</a-tag>
       </template>
@@ -31,9 +31,13 @@ const columns = [
     // className: 'column-money',
     dataIndex: 'author',
   },
-  {
-    title: '定价',
+    {
+    title: '原价',
     dataIndex: 'originalPrice',
+  },
+  {
+    title: '当前价',
+    dataIndex: 'currentPrice',
   },
   {
     title: '出版社',
@@ -62,7 +66,7 @@ export default defineComponent({
   setup() {
     const router = useRouter()
 
-    const { createBooks, deleteBooks, updateBooks, getBooks }  = useHandleBook()
+    const { deleteBooks,  getBooks }  = useHandleBook()
 
     const data = ref()
     onMounted(async () => {
@@ -71,10 +75,11 @@ export default defineComponent({
 
     /*records存储的是每一行的记录*/
     const handleUpdate = (record: any) => {
-      console.log(record)
       router.push('/home/book-update/' + record.id)
     }
-    const handleDelete = () => { }
+    const handleDelete = async (record: any) => { 
+      data.value = await deleteBooks(record.id)
+    }
 
     const handleAdd = () => {
       router.push('/home/book-update/add')
@@ -95,15 +100,4 @@ export default defineComponent({
   cursor: pointer;
 }
 
-</style>
-
-<style>
-.btn--create {
-  position: absolute;
-  top: 25px;
-  right: 50px;
-}
-.btn--create::before {
-  clear: both
-}
 </style>
