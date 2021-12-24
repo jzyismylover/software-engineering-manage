@@ -88,21 +88,26 @@ export default defineComponent({
     const formRef = ref();
     const formState = reactive({});
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
       /*具体的逻辑可以选择一些必选项目来进行 rules 验证*/
-      isAdd.value === 'add' ? setAdd() : setUpdate()
+      const res = await (isAdd.value === 'add' ? setAdd() : setUpdate())
+      if(res.code) router.go(-1)
     };
 
     // 提交的时候合并 tags
     const setUpdate = () => {
-      updateBooks(toRaw(Object.assign(formState, { label: formState.label.toString() })))
+      const state = toRaw(formState)
+      //移除不应该传的字段
+      delete state.createTime
+      delete state.updateTime
+      return updateBooks(toRaw(Object.assign(state, { label: state.label.toString() })))
     }
     const setAdd = () => {
-      createBooks(toRaw(formState))
+      return createBooks(toRaw(formState))
     }
 
     const setBack = () => {
-      router.push('/home')
+      router.go(-1)
     }
     return {
       formRef,

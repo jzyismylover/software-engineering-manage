@@ -24,10 +24,12 @@ export function useHandleBook() {
   }
 
   const createBooks = async (param) => {
-    const res = await XRequest({
+    return XRequest({
       url: API.BOOK,
       method: 'post',
       param: param
+    }).then(res => {
+      return res
     })
   }
 
@@ -42,17 +44,16 @@ export function useHandleBook() {
 
   /*经过验证 id 是必传的*/
   const updateBooks = async (param: any) => {
-    const res = await XRequest({
+    return XRequest({
       url: API.BOOK,
       method: 'PUT',
-      param: {
-        id: 25862578,
-        bookName: '解忧杂货店3'
+      param: param
+    }).then(res => {
+      if(res.code === 200) {
+        message.success('修改成功！')
       }
-    })  
-    if(res.code === 200) {
-      message.success('修改成功！')
-    }
+      return res
+    })
   }
 
   /*ok*/

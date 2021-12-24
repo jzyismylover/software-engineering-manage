@@ -52,18 +52,15 @@ export default defineComponent({
       if(param !== 'add') { Object.assign(state, await getUserById(Number(param))) }
     })
 
-    const setSubmit = () => {
+    const setSubmit = async () => {
       const psw = md5(state.password)
       const states = toRaw(state)
       Object.assign(states, { passwordMd5: psw })
       delete states.createTime
-      if(param === 'add') {
-        createUsers(states)
-      } else {
-        updateUsers(states)
-      }
-      router.go(-1)
+      const res = await (param === 'add' ? createUsers(states) : updateUsers(states))
+      res.code && router.go(-1)
     }
+    
     const setBack = () => { 
       router.go(-1)
     }

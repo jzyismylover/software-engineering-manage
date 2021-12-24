@@ -89,23 +89,21 @@ export default defineComponent({
     const setUpdate = async () => { 
       if(record.categorylevel === '1') record.parentId = 0
       Object.assign(record, { categoryId: route.params.id })
-      updateCategorys(toRaw(record))
+      return updateCategorys(toRaw(record))
     }
     const setAdd = async () => {
       getParentId()
-      await createCategorys(toRaw(record))
+      return createCategorys(toRaw(record))
     }
 
     // 提交逻辑
-    const setSubmit = () => {
+    const setSubmit = async () => {
       Object.assign(record, { categoryLevel: Number(record.categorylevel) })
-      if (route.params.id === 'add') {
-        setAdd()
-      } else {
-        setUpdate()
-      }
-      router.go(-1)
+      const res = await (route.params.id === 'add' ? setAdd() : setUpdate())
+      res.code === 200 && router.go(-1)
     }
+
+    // 返回上一页
     const setBack = () => {
       router.go(-1)
     }

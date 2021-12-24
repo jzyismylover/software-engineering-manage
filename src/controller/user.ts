@@ -31,6 +31,7 @@ export function useHandleUser() {
       if(res.code === 200) {
         message.success('新建用户成功')
       }
+      return res
     })
   }
 
@@ -51,6 +52,7 @@ export function useHandleUser() {
       if(res.code === 200) {
         message.success('修改用户成功')
       }
+      return res
     })
   }
 

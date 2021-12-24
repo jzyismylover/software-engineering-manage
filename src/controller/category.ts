@@ -37,6 +37,7 @@ export function useHandleCategory() {
       if(res.code == 200) {
         message.success(`新增成功`)
       }     
+      return res
     })
   }
 
@@ -56,6 +57,7 @@ export function useHandleCategory() {
       param: params
     }).then(res => {
       if(res.code == 200) message.success(`修改成功`)
+      return res
     })
   }
 
