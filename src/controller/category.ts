@@ -23,7 +23,7 @@ export function useHandleCategory() {
         id: params.id
       }
     }).then(res => {
-      if(res.code == 200) message.success(`删除${params.name}成功`)
+      if(res.code == 200) message.success(`删除成功`)
       return getCategorys()
     })
   }
@@ -35,7 +35,7 @@ export function useHandleCategory() {
       param: params
     }).then(res => {
       if(res.code == 200) {
-        message.success(`新增${params.categoryName}成功`)
+        message.success(`新增成功`)
       }     
     })
   }
@@ -55,7 +55,7 @@ export function useHandleCategory() {
       method: 'put',
       param: params
     }).then(res => {
-      if(res.code == 200) message.success(`修改${params.name}成功`)
+      if(res.code == 200) message.success(`修改成功`)
     })
   }
 
