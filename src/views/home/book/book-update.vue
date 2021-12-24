@@ -100,7 +100,7 @@ export default defineComponent({
       //移除不应该传的字段
       delete state.createTime
       delete state.updateTime
-      return updateBooks(toRaw(Object.assign(state, { label: state.label.toString() })))
+      return updateBooks(toRaw(Object.assign(state, { label: state.label.join('/') + '/' })))
     }
     const setAdd = () => {
       return createBooks(toRaw(formState))
