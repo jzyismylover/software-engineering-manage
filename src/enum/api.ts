@@ -6,5 +6,6 @@
 export enum API {
   BOOK = "/adminBook",
   CATEGORY = "/adminCategory",
-  USER = "/adminUser"
+  USER = "/adminUser",
+  ADDRESS = '/adminAddress'
 }

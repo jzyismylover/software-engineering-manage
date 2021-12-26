@@ -61,6 +61,16 @@ const routes: RouteRecordRaw[] = [
         path: 'user-update/:id',
         name: 'UserUpdate',
         component: () => import('../views/home/user/user-update.vue')
+      },
+      {/*地址管理*/
+        path: 'address',
+        name: 'Address',
+        component: () => import('../views/home/user/address/index.vue')
+      },
+      {/*地址更新*/
+        path: 'address-update/:id',
+        name: 'AddressUpdate',
+        component: () => import('../views/home/user/address/address-update.vue')
       }
     ]
   }

@@ -1,8 +1,14 @@
 <template>
-  <base-nav title="用户信息管理" />
+  <base-nav title="用户地址管理" />
   <a-button class="btn--create" type="primary" @click="handleAdd">新增</a-button>
   <div class="table">
-    <a-table :columns="columns" :data-source="data" :pagination="{ defaultPageSize: 9 }" bordered rowKey="userId">
+    <a-table
+      :columns="columns"
+      :data-source="data"
+      :pagination="{ defaultPageSize: 9 }"
+      bordered
+      rowKey="userId"
+    >
       <template #name="{ text }">
         <a>{{ text }}</a>
       </template>
@@ -17,27 +23,35 @@
 import { defineComponent, onMounted, ref } from 'vue';
 import { Table, Tag } from 'ant-design-vue'
 import { useRouter } from 'vue-router';
-import { useHandleUser } from '../../../controller/user';
+import { useHandleUser } from '../../../../controller/user';
+import { useHandleAddress } from '../../../../controller/address';
 
 // 设置标题头
 const columns = [
   {
     title: '用户名',
-    dataIndex: 'loginName',
+    dataIndex: 'userName',
     slots: { customRender: 'name' },
   },
   {
-    title: '密码',
-    dataIndex: 'passwordMd5',
+    title: '省',
+    dataIndex: 'provinceName',
   },
   {
-    title: '昵称',
-    // className: 'column-money',
-    dataIndex: 'nickName',
+    title: '市',
+    dataIndex: 'cityName',
+  },
+  {
+    title: '区',
+    dataIndex: 'regionName',
+  },
+  {
+    title: '电话号码',
+    dataIndex: 'userPhone',
   },
   {
     title: '详细住址',
-    dataIndex: 'address',
+    dataIndex: 'detailAddress',
   },
   {
     title: '操作',
@@ -53,25 +67,25 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter()
-    
-    const { getUsers, deleteUsers } = useHandleUser()
+
+    const { getAddress, deleteAddress } = useHandleAddress()
 
     const data = ref();
     onMounted(async () => {
-      data.value = await getUsers()
+      data.value = await getAddress()
     })
 
     const handleUpdate = (record: any) => {
       console.log(record)
-      router.push('/home/user-update/' + record.userId)
+      router.push('/home/address-update/' + record.userId)
     }
-    
+
     const handleDelete = async (record: any) => {
-      data.value = await deleteUsers(record.userId)
+      data.value = await deleteAddress(record.userId)
     }
 
     const handleAdd = () => {
-      router.push('/home/user-update/add')
+      router.push('/home/address-update/add')
     }
 
     return {

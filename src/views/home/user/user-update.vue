@@ -13,17 +13,6 @@
     <a-form-item label="个人简介">
       <a-input v-model:value="state.introduceSign"></a-input>
     </a-form-item>
-    <a-form-item label="电话号码">
-      <a-input></a-input>
-    </a-form-item>
-    <a-form-item label="所在地（省市区）">
-      <template #default>
-        <base-space :provinceData="provinceData" :cityData="cityData" :regionData="regionData" />
-      </template>
-    </a-form-item>
-    <a-form-item label="详细住址">
-      <a-input></a-input>
-    </a-form-item>
     <a-form-item :wrapper-col="{ span: 14, offset: 4 }" class="form-btn row-whole">
       <a-button type="primary" @click="setSubmit">确认</a-button>
       <a-button style="margin-left: 10px" @click="setBack">返回</a-button>
@@ -34,7 +23,6 @@
 <script lang="ts">
 import { defineComponent, onMounted, reactive, toRaw } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { provinceData, cityData, regionData } from '../../../constant/area'
 import { useHandleUser } from '../../../controller/user'
 import md5 from 'md5'
 
@@ -68,9 +56,6 @@ export default defineComponent({
     return {
       labelCol: { span: 4 },
       wrapperCol: { span: 14 },
-      provinceData,
-      cityData,
-      regionData,
       setSubmit,
       setBack,
       state
